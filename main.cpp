@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 
 class prieten {
@@ -169,5 +169,23 @@ int main() {
     g1.verificare();
     m2.trecere();
     m1.trecere();
+    return 0;
+}*/
+#include <iostream>
+#include <string>
+#include <utility>
+class produs {
+    double pret;
+    std::string nume;
+    int sectiune, id_raion;
+public:
+    explicit produs(const double pret_=0, std::string nume_="NULL", const int sectiune_=0, const int id_raion_=0) : pret(pret_), nume(std::move(nume_)), sectiune(sectiune_), id_raion(id_raion_)  {}
+    ~produs() = default;
+};
+
+int main() {
+    produs branza(14.5,"Hochland", 5, 3);
+    produs paine;
+    std::cout << "hello";
     return 0;
 }
