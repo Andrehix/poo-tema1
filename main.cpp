@@ -185,7 +185,7 @@ public:
 
 int main() {
     produs branza(14.5,"Hochland", 5, 3);
-    produs paine;
+    produs paine,salut;
     std::cout << "hello";
     return 0;
 }
