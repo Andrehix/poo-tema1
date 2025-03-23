@@ -45,6 +45,25 @@ public:
             std::cout << p;
         }
     }
+
+    ~raion() = default;
+
+    raion& operator=(const raion& other) {
+        if (this != &other) {
+            id = other.id;
+            nume = other.nume;
+            produse = other.produse;
+        }
+        return *this;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const raion& r) {
+        out << "Raion: " << r.nume << ", ID: " << r.id << std::endl;
+        for (const produs& p : r.produse) {
+            out << p;
+        }
+        return out;
+    }
 };
 
 int main() {
@@ -53,5 +72,7 @@ int main() {
     std::cout << p1 << p2;
     raion r1(1, "congelate", std::vector<produs>{p3,p4});
     r1.afiseazaProduse();
+    raion r2;
+    std::cout << r2 << r1 << std::endl;
     return 0;
 }
