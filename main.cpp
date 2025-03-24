@@ -59,7 +59,7 @@ public:
         }
     }
 
-    void afiseazaCant() {
+    void afiseazaCant() const {
         int c=0;
         for (const produs& p : produse) {
             c+=p.getCant();
@@ -67,7 +67,7 @@ public:
         std::cout<<"Pe raionul "<<nume<<" sunt, in total, "<<c<<" bucati.\n";
     }
 
-    void afiseazaPret() {
+    void afiseazaPret() const {
         double pret=0;
         for (const produs& p : produse) {
             pret+=p.getPret();
@@ -75,7 +75,7 @@ public:
         std::cout<<"Pe raionul "<<nume<<" sunt produse in valoare de "<<pret<<" lei.\n";
     }
 
-    void afiseazaProduseCant(int c) {
+    void afiseazaProduseCant(int c) const {
         if (c >= 0) {
             std::cout<< "Produse in raionul "<<nume<< " care au cantitatea mai mare de "<<c<<" bucati:\n";
             for (const produs& p : produse) {
@@ -91,7 +91,7 @@ public:
         }
     }
 
-    void afiseazaProdusePret(int c) {
+    void afiseazaProdusePret(int c) const{
         if (c > 0) {
             std::cout<< "Produse in raionul "<<nume<< " care au pretul mai mare de "<<c<<" lei:\n";
             for (const produs& p : produse) {
@@ -132,7 +132,7 @@ class raioane {
 public:
     explicit raioane(const std::vector<raion>& raioanele_ = {}) : raioanele(raioanele_) {}
     ~raioane() = default;
-    [[nodiscard]] std::vector<raion> getR() const {
+    [[nodiscard]] const std::vector<raion>& getR() const {
         return raioanele;
     }
 };
@@ -160,7 +160,7 @@ int main() {
                 if (n==1) {
                     std::cout<<"Inserati id-ul raionului:";
                     std::cin>>i;
-                    for ( raion& a : R.getR() )
+                    for (const raion& a : R.getR() )
                         if (a.getId() == i) {
                             std::cout<<"Inserati numarul:";
                             std::cin>>i;
@@ -170,7 +170,7 @@ int main() {
                 if (n==2) {
                     std::cout<<"Inserati id-ul raionului:";
                     std::cin>>i;
-                    for ( raion& a : R.getR() )
+                    for (const raion& a : R.getR() )
                         if (a.getId() == i) {
                             std::cout<<"Inserati numarul:";
                             std::cin>>i;
@@ -180,7 +180,7 @@ int main() {
                 if (n==3) {
                     std::cout<<"Inserati id-ul raionului:";
                     std::cin>>i;
-                    for ( raion& a : R.getR() )
+                    for (const raion& a : R.getR() )
                         if (a.getId() == i) {
                             a.afiseazaCant();
                         }
@@ -188,7 +188,7 @@ int main() {
                 if (n==4) {
                     std::cout<<"Inserati id-ul raionului:";
                     std::cin>>i;
-                    for ( raion& a : R.getR() )
+                    for ( const raion& a : R.getR() )
                         if (a.getId() == i) {
                             a.afiseazaPret();
                         }
@@ -196,7 +196,7 @@ int main() {
                 if (n==5) {
                     std::cout<<"Inserati id-ul raionului:";
                     std::cin>>i;
-                    for ( raion& a : R.getR() )
+                    for (const raion& a : R.getR() )
                         if (a.getId() == i) {
                             a.afiseazaProduse();
                         }
