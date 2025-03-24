@@ -54,14 +54,14 @@ public:
     void afiseazaProdusePret(int c) {
         if (c > 0) {
             std::cout<< "Produse in raionul "<<nume<< " care au pretul mai mare de "<<c<<" lei:\n";
-            for (produs& p : produse) {
+            for (const produs& p : produse) {
                 if (p.getPret()>=c) std::cout<<p;
             }
         }
         else {
             c=-c;
             std::cout<< "Produse in raionul "<<nume<< " care au pretul mai mic de "<<c<<" lei:\n";
-            for (produs& p : produse) {
+            for (const produs& p : produse) {
                 if (p.getPret()<=c) std::cout<<p;
             }
         }
@@ -91,7 +91,8 @@ int main() {
     produs p1(14.5, "Branza Hochland", 5, 3);
     produs p2(10.7, "Coca-Cola Zero", 20, 2), p3(21.5, "Foietaje cu feta", 10, 1), p4(15, "Pastrav", 15, 1);
     std::cout << p1 << p2;
-    raion r1(1, "congelate", std::vector<produs>{p3,p4});
+    raion r1(1, "congelate", std::vector<produs>{p3,p4}),r2;
+    r2.afiseazaProduse();
     r1.afiseazaProdusePret(-20);
     return 0;
 }
