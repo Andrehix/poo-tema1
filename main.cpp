@@ -48,11 +48,28 @@ public:
     explicit raion(const int id_ = 0, std::string nume_ = "NULL", const std::vector<produs>& produse_ = {}) : id(id_), nume(std::move(nume_)), produse(produse_) {
         std::cout<<"Raionul pentru "<<nume<<" s-a initializat cu succes!\n";
     }
+
     void afiseazaProduse() const {
-        std::cout << "Produse in raionul " << nume << ":\n";
+        std::cout << "Raionul " << nume << " are " << produse.size() << " produse:\n";
         for (const produs& p : produse) {
             std::cout << p;
         }
+    }
+
+    void afiseazaCant() {
+        int c=0;
+        for (const produs& p : produse) {
+            c+=p.getCant();
+        }
+        std::cout<<"Pe raionul "<<nume<<" sunt, in total, "<<c<<" bucati.\n";
+    }
+
+    void afiseazaPret() {
+        int pret=0;
+        for (const produs& p : produse) {
+            pret+=p.getPret();
+        }
+        std::cout<<"Pe raionul "<<nume<<" sunt produse in valoare de "<<pret<<" lei.\n";
     }
 
     void afiseazaProduseCant(int c) {
@@ -115,5 +132,7 @@ int main() {
     r2.afiseazaProduse();
     r1.afiseazaProdusePret(-20);
     r1.afiseazaProduseCant(-12);
+    r1.afiseazaPret();
+    r1.afiseazaCant();
     return 0;
 }
