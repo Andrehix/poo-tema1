@@ -14,8 +14,8 @@ public:
     explicit produs(const double pret_ = 0, std::string nume_ = "NULL",
                     const int cantitate_ = 0, const int id_raion_ = 0)
         : pret(pret_), nume(std::move(nume_)), cantitate(cantitate_), id_raion(id_raion_) {std::cout<<nume<<" s-a initializat cu succes!\n";}
-
-    produs(const produs &p) : pret(p.pret), nume(p.nume),  cantitate(p.cantitate), id_raion(p.id_raion) {}
+    produs(const produs &p) = default;
+    //produs(const produs &p) : pret(p.pret), nume(p.nume),  cantitate(p.cantitate), id_raion(p.id_raion) {}
 
     ~produs() = default;
 
