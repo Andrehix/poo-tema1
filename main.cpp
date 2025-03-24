@@ -107,6 +107,8 @@ public:
         }
     }
 
+    raion(const raion& other) = default;
+
     ~raion() = default;
 
     raion& operator=(const raion& other) {
