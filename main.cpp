@@ -11,6 +11,10 @@ public:
     [[nodiscard]] double getPret() const {
         return pret;
     }
+
+    [[nodiscard]] int getCant() const {
+        return cantitate;
+    }
     explicit produs(const double pret_ = 0, std::string nume_ = "NULL",
                     const int cantitate_ = 0, const int id_raion_ = 0)
         : pret(pret_), nume(std::move(nume_)), cantitate(cantitate_), id_raion(id_raion_) {std::cout<<nume<<" s-a initializat cu succes!\n";}
@@ -48,6 +52,22 @@ public:
         std::cout << "Produse in raionul " << nume << ":\n";
         for (const produs& p : produse) {
             std::cout << p;
+        }
+    }
+
+    void afiseazaProduseCant(int c) {
+        if (c >= 0) {
+            std::cout<< "Produse in raionul "<<nume<< " care au cantitatea mai mare de "<<c<<" bucati:\n";
+            for (const produs& p : produse) {
+                if (p.getCant()>=c) std::cout<<p;
+            }
+        }
+        else {
+            c=-c;
+            std::cout<< "Produse in raionul "<<nume<< " care au cantitatea mai mica de "<<c<<" bucati:\n";
+            for (const produs& p : produse) {
+                if (p.getCant()<=c) std::cout<<p;
+            }
         }
     }
 
@@ -94,5 +114,6 @@ int main() {
     raion r1(1, "congelate", std::vector<produs>{p3,p4}),r2;
     r2.afiseazaProduse();
     r1.afiseazaProdusePret(-20);
+    r1.afiseazaProduseCant(-12);
     return 0;
 }
