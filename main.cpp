@@ -208,5 +208,6 @@ int main() {
             g--;
         }
     }
+    std::cout<<"Multumim!";
     return 0;
 }
