@@ -1,173 +1,246 @@
 #include <iostream>
+#include <string>
 #include <vector>
 
-class prieten {
-    int varsta;
-    bool close;
+class produs {
+    double pret;
     std::string nume;
+    int cantitate, id_raion;
+
 public:
-    std::string getNume() {
-        return this->nume;
-    }
-    prieten() { std::cout << "Cine-i asta???\n"; }
-    prieten(const std::string& nume_, const int varsta_, const bool close_)
-        : nume(nume_), varsta(varsta_), close(close_) {
-        if (close_)
-            std::cout << "L-am initializat pe vtm " << nume_ << " cu succes!\n";
-        else
-            std::cout << "L-am initializat pe sarpele ala de " << nume_ << " cu succes...\n";
+    [[nodiscard]] double getPret() const {
+        return pret;
     }
 
-    prieten(const prieten& altu)
-        : nume(altu.nume), varsta(altu.varsta), close(altu.close) {
-        std::cout << "L-am clonat pe " << altu.nume << " lol\n";
+    [[nodiscard]] int getCant() const {
+        return cantitate;
     }
+    explicit produs(const double pret_ = 0, std::string nume_ = "NULL",
+                    const int cantitate_ = 0, const int id_raion_ = 0)
+        : pret(pret_), nume(std::move(nume_)), cantitate(cantitate_), id_raion(id_raion_) {std::cout<<nume<<" s-a initializat cu succes!\n";}
+    produs(const produs &p) = default;
+    //produs(const produs &p) : pret(p.pret), nume(p.nume),  cantitate(p.cantitate), id_raion(p.id_raion) {}
 
-    prieten& operator=(const prieten& altu) {
-        std::cout << nume << " se transforma in " << altu.nume << "!" << std::endl;
-        nume = altu.nume;
-        close = altu.close;
-        varsta = altu.varsta;
-        return *this;
-    }
+    ~produs() = default;
 
-    friend std::ostream& operator<<(std::ostream& os, const prieten& p);
-
-    bool is_close() const { return close; }
-    ~prieten() = default;
-};
-
-std::ostream& operator<<(std::ostream& os, const prieten& p) {
-    os << "<------> " << "Numele prietenului -> " << p.nume
-       << " ### Varsta -> " << p.varsta
-       << " ### Close -> " << (p.close ? "Da" : "Nu") << " <------>\n";
-    return os;
-}
-
-class grup {
-    std::string nume;
-    std::vector<prieten> indivizii;
-    int tier;
-public:
-    void verificare() {
-        int i;
-        for (i=0;i<indivizii.size();i++)
-            if (!indivizii[i].is_close()) {
-                std::cout<<"L-am prins pe "<<indivizii[i].getNume()<<" si l-am dat afara din "<<nume<<'!'<<std::endl;
-                indivizii.erase(indivizii.begin() + i);
-            }
-    }
-    grup() = default;
-    grup(const std::string& nume, const std::vector<prieten>& indivizii, int tier)
-        : nume(nume), indivizii(indivizii), tier(tier) {
-        std::cout << "I-am initializat pe " << nume << std::endl;
-    }
-
-    grup(const grup& altu)
-        : nume(altu.nume), tier(altu.tier), indivizii(altu.indivizii) {}
-
-    grup& operator=(const grup& altu) {
-        std::cout << nume << " se transforma in " << altu.nume << "!" << std::endl;
-        nume = altu.nume;
-        tier = altu.tier;
-        indivizii = altu.indivizii;
-        return *this;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const grup& g);
-};
-
-std::ostream& operator<<(std::ostream& os, const grup& g) {
-    os << "<------> " << "Numele grupului -> " << g.nume
-       << " ### Tier -> " << g.tier << " ### Membrii:\n";
-    for (const auto& p : g.indivizii) {
-        os << p << '\n';
-    }
-    return os;
-}
-
-class shaorma {
-    std::string nume;
-    int nota;
-public:
-    shaorma() = default;
-    shaorma(const std::string& nume, int nota) : nume(nume), nota(nota) {}
-    shaorma(const shaorma& altu) : nume(altu.nume), nota(altu.nota) {}
-
-    shaorma& operator=(const shaorma& alta) {
-        nume = alta.nume;
-        nota = alta.nota;
-        return *this;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const shaorma& s);
-
-    void concluzie() {
-        if (this->nota>5){std::cout<<this->nume<<" e peste medie!"<<std::endl;}
-        else if (this->nota<5){std::cout<<this->nume<<" este sub medie..."<<std::endl;}
-        else {std::cout<<this->nume<<" e la medie."<<std::endl;}
-    }
-
-    static double medie_shaorme(const std::vector<shaorma>& shaormele) {
-        if (shaormele.empty()) return 0.0;
-
-        double total = 0.0;
-        for (const shaorma& shaorma_obj : shaormele) {
-            total += shaorma_obj.nota;
+    produs& operator=(const produs& other) {
+        if (this != &other) {
+            pret = other.pret;
+            nume = other.nume;
+            cantitate = other.cantitate;
+            id_raion = other.id_raion;
         }
-
-        return total / shaormele.size();
-    }
-};
-
-std::ostream& operator<<(std::ostream& os, const shaorma& s) {
-    os << "Shaorma: " << s.nume << ", Nota: " << s.nota << std::endl;
-    return os;
-}
-
-class materie {
-    std::string nume, profesor;
-    int credite;
-public:
-    materie() = default;
-    materie(const std::string& nume_, const std::string& profesor_, int credite_)
-        : nume(nume_), profesor(profesor_), credite(credite_) {}
-
-    materie& operator=(const materie& alta) {
-        nume = alta.nume;
-        credite = alta.credite;
-        profesor = alta.profesor;
         return *this;
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const materie& m);
-    std::string getNume() {
-        return this->nume;
-    }
-    void trecere() const {
-        if (credite>=5)std::cout<<"AI TRECUT LA "<<nume<<" YIPIEE!"<<std::endl;
-        else std::cout<<"Ai picat la "<<nume<<"..."<<std::endl;
+    friend std::ostream& operator<<(std::ostream& out, const produs& p) {
+        out << "Produs: " << p.nume << " | Pret: " << p.pret
+            << " | Cantitate: " << p.cantitate << " | Raion: " << p.id_raion << std::endl;
+        return out;
     }
 };
 
-std::ostream& operator<<(std::ostream& os, const materie& m) {
-    os << "Materia: " << m.nume << ", Profesor: " << m.profesor
-       << ", Credite: " << m.credite << std::endl;
-    return os;
-}
+class raion {
+    int id;
+    std::string nume;
+    std::vector<produs> produse;
+public:
+    [[nodiscard]] int getId() const {
+        return id;
+    }
+    explicit raion(const int id_ = 0, std::string nume_ = "NULL", const std::vector<produs>& produse_ = {}) : id(id_), nume(std::move(nume_)), produse(produse_) {
+        std::cout<<"Raionul pentru "<<nume<<" s-a initializat cu succes!\n";
+    }
+
+    void afiseazaProduse() const {
+        std::cout << "Raionul " << nume << " are " << produse.size() << " produse:\n";
+        for (const produs& p : produse) {
+            std::cout << p;
+        }
+    }
+
+    void afiseazaCant() const {
+        int c=0;
+        for (const produs& p : produse) {
+            c+=p.getCant();
+        }
+        std::cout<<"Pe raionul "<<nume<<" sunt, in total, "<<c<<" bucati.\n";
+    }
+
+    void afiseazaPret() const {
+        double pret=0;
+        for (const produs& p : produse) {
+            pret+=p.getPret();
+        }
+        std::cout<<"Pe raionul "<<nume<<" sunt produse in valoare de "<<pret<<" lei.\n";
+    }
+
+    void afiseazaProduseCant(int c) const {
+        if (c >= 0) {
+            std::cout<< "Produse in raionul "<<nume<< " care au cantitatea mai mare de "<<c<<" bucati:\n";
+            for (const produs& p : produse) {
+                if (p.getCant()>=c) std::cout<<p;
+            }
+        }
+        else {
+            c=-c;
+            std::cout<< "Produse in raionul "<<nume<< " care au cantitatea mai mica de "<<c<<" bucati:\n";
+            for (const produs& p : produse) {
+                if (p.getCant()<=c) std::cout<<p;
+            }
+        }
+    }
+
+    void afiseazaProdusePret(int c) const{
+        if (c > 0) {
+            std::cout<< "Produse in raionul "<<nume<< " care au pretul mai mare de "<<c<<" lei:\n";
+            for (const produs& p : produse) {
+                if (p.getPret()>=c) std::cout<<p;
+            }
+        }
+        else {
+            c=-c;
+            std::cout<< "Produse in raionul "<<nume<< " care au pretul mai mic de "<<c<<" lei:\n";
+            for (const produs& p : produse) {
+                if (p.getPret()<=c) std::cout<<p;
+            }
+        }
+    }
+
+    void adaugaProdus(const produs& p) {
+        produse.push_back(p);
+    }
+
+    raion(const raion& other) = default;
+
+    ~raion() = default;
+
+    raion& operator=(const raion& other) {
+        if (this != &other) {
+            id = other.id;
+            nume = other.nume;
+            produse = other.produse;
+        }
+        return *this;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const raion& r) {
+        out << "Raion: " << r.nume << ", ID: " << r.id << std::endl;
+        for (const produs& p : r.produse) {
+            out << p;
+        }
+        return out;
+    }
+};
+
+class magazin {
+    std::vector<raion> raioane;
+public:
+    explicit magazin(const std::vector<raion>& raioanele_ = {}) : raioane(raioanele_) {}
+    ~magazin() = default;
+    std::vector<raion>& getR(){
+        return raioane;
+    }
+};
 
 int main() {
-    prieten p1("Iulian", 19, true), p2("Eren", 20, false);
-    grup g1("Faptasii", {p1, p2}, 1);
-
-    shaorma s1("Dristor", 9), s2("Baneasa", 4), s3("Fendi", 10), s4("Auchan",2);
-    std::vector<shaorma> shaormele = {s1, s2, s3};
-    std::cout << "Media notelor: " << shaorma::medie_shaorme(shaormele) << std::endl;
-
-    materie m1("POO", "Prof. Micluta", 3), m2("LFA", "Prof. Paun", 7), m3("BD", "Prof. Marin", 10);
-    s1.concluzie();
-    g1.verificare();
-    m2.trecere();
-    m1.trecere();
+    produs p1(14.5, "Branza Hochland", 5, 3);
+    produs p2(10.7, "Coca-Cola Zero", 20, 2), p3(21.5, "Foietaje cu feta", 10, 1), p4(15, "Pastrav", 15, 1);
+    raion r1(1, "congelate", std::vector<produs>{p3,p4}),r2;
+    /*r2.afiseazaProduse();
+    r1.afiseazaProdusePret(-20);
+    r1.afiseazaProduseCant(-12);
+    r1.afiseazaPret();
+    r1.afiseazaCant();*/
+    magazin R({r1,r2});
+    int n=1,i=1,g=0;
+    while (n!=0) {
+        std::cout<<"Bun venit in baza de date Mini Image!\n"<<"Selecteaza una dintre urmatoarele optiuni:\n"<<"1. Afisare produse.\n"<<"2. Inserare produse.\n"<<"0. Inchidere program.\n";
+        std::cin>>n;
+        if (n==1)
+            while (n!=0) {
+                std::cout<<"Afisare produse. Selectati optiunea dorita:\n"<<"1. Afisare produse de pe un raion cu cantitatea mai mare/mai mica decat un numar.\n"
+                <<"2. Afisare produse de pe un raion cu pretul mai mic/mai mare decat un numar.\n"<<"3. Afisare cantitatea totala de pe un raion.\n"
+                <<"4. Afisare pret total de pe un raion.\n"<<"5. Afisarea tuturor produselor de pe un raion.\n"<<"0. Revenire la meniul principal.\n";
+                std::cin>>n;
+                if (n==1) {
+                    std::cout<<"Inserati id-ul raionului:";
+                    std::cin>>i;
+                    for (const raion& a : R.getR() )
+                        if (a.getId() == i) {
+                            std::cout<<"Inserati numarul:";
+                            std::cin>>i;
+                            a.afiseazaProduseCant(i);
+                        }
+                }
+                if (n==2) {
+                    std::cout<<"Inserati id-ul raionului:";
+                    std::cin>>i;
+                    for (const raion& a : R.getR() )
+                        if (a.getId() == i) {
+                            std::cout<<"Inserati numarul:";
+                            std::cin>>i;
+                            a.afiseazaProdusePret(i);
+                        }
+                }
+                if (n==3) {
+                    std::cout<<"Inserati id-ul raionului:";
+                    std::cin>>i;
+                    for (const raion& a : R.getR() )
+                        if (a.getId() == i) {
+                            a.afiseazaCant();
+                        }
+                }
+                if (n==4) {
+                    std::cout<<"Inserati id-ul raionului:";
+                    std::cin>>i;
+                    for ( const raion& a : R.getR() )
+                        if (a.getId() == i) {
+                            a.afiseazaPret();
+                        }
+                }
+                if (n==5) {
+                    std::cout<<"Inserati id-ul raionului:";
+                    std::cin>>i;
+                    for (const raion& a : R.getR() )
+                        if (a.getId() == i) {
+                            a.afiseazaProduse();
+                        }
+                }
+                if (n==0) {g++;}
+            }
+        if (n==2)
+            while (n!=0) {
+                std::cout<<"Inserare produse. Introduceti numarul de produse inserate:";
+                std::cin>>n;
+                double pret;
+                std::string nume;
+                int cantitate, id_raion;
+                for (int j=0; j<n; j++) {
+                    std::cout<<"Produsul "<<j+1<<":\n Pret:";
+                    std::cin>>pret;
+                    std::cout<<"Nume:";
+                    std::cin.ignore();
+                    std::getline(std::cin, nume);
+                    std::cout<<"Cantitate:";
+                    std::cin>>cantitate;
+                    std::cout<<"Id raion:";
+                    std::cin>>id_raion;
+                    produs P(pret, nume, cantitate, id_raion);
+                    for (raion& a : R.getR() )
+                        if (a.getId() == id_raion) {
+                            a.adaugaProdus(P);
+                        }
+                    std::cout<<nume<<" a fost introdus cu succes!\n";
+                }
+                n=0;
+                g++;
+            }
+        if (g==1) {
+            n=1;
+            g--;
+        }
+    }
+    std::cout<<"Multumim!";
     return 0;
 }
