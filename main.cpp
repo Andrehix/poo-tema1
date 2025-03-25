@@ -215,7 +215,7 @@ int main() {
             if (n==1){
                     std::cout<<"Inserare produse. Introduceti numarul de produse inserate:";
                     std::cin>>n;
-                    double pret;
+                    double pret;//hehe
                     std::string nume;
                     int cantitate, id_raion;
                     for (int j=0; j<n; j++) {
