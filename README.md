@@ -1,4 +1,4 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# NU MAI VREAU, DACA MAI VAD O LINIE DE COD INNEBUNESC
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
